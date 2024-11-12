@@ -1,16 +1,16 @@
 {
     "social": [
         {
-            "network" : "linkedin",
-            "href": "https://linkedin.com/"
-        },
-        {
             "network" : "github",
-            "href": "https://github.com/mayankagarwal09"
+            "href": "https://github.com/BambusWizard"
         },
         {
             "network" : "email",
-            "href": "mailto:test@test.com"
+            "href": "mailto:pixoins.dev@gmail.com"
+        },
+        {
+            "network" : "email",
+            "href": "mailto:pixoins.dev@gmail.com"
         }
     ]
 }

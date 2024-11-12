@@ -2,36 +2,28 @@
     "logo" : {
         "source": "images/logo.png",
         "height" : 45,
-        "width" : 50
+        "width" : 180
     },
     "sections": [
         {
-            "title": "Home",
+            "title": "Главная",
             "href": "/"
         },
         {
-            "title": "About",
+            "title": "Обо мне",
             "href": "/about"
         },
         {
-            "title": "Skills",
-            "href": "/skills"
-        },
-        {
-            "title": "Education",
-            "href": "/education"
-        },
-        {
-            "title": "Experience",
+            "title": "Опыт",
             "href": "/experience"
         },
         {
-            "title": "Projects",
+            "title": "Проекты",
             "href": "/projects"
         },
         {
-            "title": "Resume",
-            "href": "https://drive.google.com/file/d/13kaPsdMNDsM4LV9g7m5-E5PTildp-yYf/view?usp=sharing",
+            "title": "Резюме",
+            "href": "https://hh.ru/resume/dedd54afff0c69f00c0039ed1f6a624f4e536d?hhtmFrom=resume_list",
             "type": "link"
         }
     ]

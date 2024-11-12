@@ -3,27 +3,27 @@
         {
             "component": "About",
             "path": "/about",
-            "headerTitle": "About"
+            "headerTitle": "Обо мне"
         },
         {
             "component": "Skills",
             "path": "/skills",
-            "headerTitle": "Skills"
+            "headerTitle": "Навыки"
         },
         {
             "component": "Education",
             "path": "/education",
-            "headerTitle": "Education"
+            "headerTitle": "Обучение"
         },
         {
             "component": "Experience",
             "path": "/experience",
-            "headerTitle": "Experience"
+            "headerTitle": "Опыт"
         },
         {
             "component": "Projects",
             "path": "/projects",
-            "headerTitle": "Projects"
+            "headerTitle": "Проекты"
         }
     ]
 }

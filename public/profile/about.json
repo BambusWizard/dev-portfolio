@@ -1,5 +1,4 @@
 {
-    "about": " This is where you can describe about **yourself**. The more you describe about yourself, the better it is!\n\n\nExtra Information about you, like hobbies and your goals.\nExample Paragraph: I am passionate about my work. Because I love what I do, I have a steady source of motivation that drives me to do my best. In my last job, this passion led me to challenge myself daily and learn new skills that helped me to do better work. For example, I taught myself how to use Photoshop to improve the quality of our photos and graphics. I soon became the go-to person for any design needs.",
-    "imageSource": "images/about/profile.png"
-    
+  "about": "С более чем десятилетним опытом работы с Unity и тремя годами коммерческой разработки, я вкладываю в каждый проект свои знания и полученные навыки. Мой путь в геймдеве начался как личное увлечение и перерос в профессиональную карьеру, в рамках которой я успешно опубликовал несколько игр на таких платформах, как Google Play и Yandex.Games. Мне нравится работать над собственными проектами, я постоянно стремлюсь к инновациям и улучшению своих навыков.\n\nИгры для меня — не только источник удовольствия, но и вдохновения. Каждый опыт помогает мне лучше понять, что делает игру увлекательной, а я стараюсь привнести эти идеи в свою работу. Сильная мотивация и стремление к развитию двигают меня вперёд, я рад возможности исследовать новые горизонты и расти как Unity-разработчик.",
+  "imageSource": "images/about/profile.png"
 }

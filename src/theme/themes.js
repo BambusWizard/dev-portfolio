@@ -1,5 +1,4 @@
 export const lightTheme = {
-  background: '#fff',
   color: '#121212',
   accentColor: '#3D84C6',
   chronoTheme: {
@@ -22,7 +21,6 @@ export const lightTheme = {
 };
 
 export const darkTheme = {
-  background: '#121212',
   color: '#eee',
   accentColor: '#3D84C6',
   chronoTheme: {
@@ -31,7 +29,8 @@ export const darkTheme = {
     titleColor: 'black',
   },
   timelineLineColor: '#444',
-  cardBackground: '#060606',
+  // cardBackground: '#060606',
+  cardBackground: '#FFFFFF20',
   cardFooterBackground: '#181818',
   cardBorderColor: '#ffffff20',
   navbarTheme: {

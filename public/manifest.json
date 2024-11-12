@@ -1,11 +1,11 @@
 {
-  "short_name": "Mayank Agarwal",
-  "name": "Mayank Agarwal - Portfolio",
+  "short_name": "Эмиль Гольвер",
+  "name": "Эмиль Гольвер - Портфолио",
   "icons": [
     {
-      "src": "images/logo.png",
+      "src": "images/logo_small.png",
       "type": "image/png",
-      "sizes": "425x225"
+      "sizes": "19x19"
     }
   ],
   "start_url": ".",

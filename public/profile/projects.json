@@ -1,149 +1,239 @@
 {
     "projects" : [
         {
-            "image" : "images/projects/portfolio-poster.png",
-            "title": "Dev Portfolio",
-            "bodyText": "- Developer Portfolio Website made in React\n -  Fully customisable and dynamic, easily change data and images.\n - Dark Mode Support",
+            "image" : "images/projects/cat-journey.gif",
+            "title": "Cat Journey 2",
+            "bodyText": "**Личный проект**\n\nПолноценная игра для PC платформы, над которой я работаю в свободное время. Хочется создать свой необычный мир, рассказать историю о том, как кот попал в будущее и на помощь ему пришел робот.\n\nЕсть демо-версия игры, с небольшим количеством наработок и подсказками, куда можно пройти и что посмотреть.",
             "links": [
                 {
-                    "text": "GitHub",
-                    "href": "https://github.com/mayankagarwal09/dev-portfolio"
+                    "text": "Скачать демо",
+                    "href": "https://drive.filen.io/d/be90931c-0605-4268-bbd5-5f399477ce81#iSlJBFNaAh01kVwTRO5RrIa8Wn4UxX0x"
+                }
+            ],
+            "tags" : [
+                "Pet-проект",
+                "DOTween",
+                "PoolSystem",
+                "EventBusSystem",
+                "Unity Localizations",
+                "Dialogue System (Nodes)",
+                "Tilemap 2D",
+                "2D Physics"
+            ]
+        },
+        {
+            "image" : "images/projects/graphical-dictations.png",
+            "title": "Графические Диктанты",
+            "bodyText": "**Личный проект**\n\nПервый завершенный проект, выпущенный в 2018 году. Активно поддерживаю и обновляю.\n - Занял нишу графических диктантов и вышел на 1 место в поиске\n - Различные режимы игры, обучение и удобный интерфейс\n - Выложен на нескольих платформах",
+            "links": [
+                {
+                    "text": "Google Play",
+                    "href": "https://play.google.com/store/apps/details?id=com.Pixoins.GraphicDictation"
                 },
                 {
-                    "text": "Live",
-                    "href": "https://mayankagarwal.me"
+                    "text": "Яндекс.Игры",
+                    "href": "https://yandex.ru/games/app/262912?lang=ru"
                 }
             ],
             "tags" : [
-                "React",
-                "Portfolio",
-                "JavaScript"
-            ]
-        },
-        {
-            "image" : "images/projects/caaring-poster.png",
-            "title": "Caaring -  Cab Share App",
-            "bodyText": "- A Cab Sharing web app made using **Django** for **VIT** Students. People can create a new cab or request to join an existing cab.\n - Added User authentication and password reset using **SendGrid**.\n - Deployed on **heroku** using **gunicorn**.",
-            "links": [
-                {
-                    "text": "GitHub",
-                    "href": "https://github.com/mayankagarwal09/Caaring"
-                },
-                {
-                    "text": "Live",
-                    "href": "http://caaring.herokuapp.com"
-                }
-            ],
-            "tags" : [
-                "Python",
-                "Django",
-                "BootStrap",
-                "SendGrid",
-                "Heroku",
-                "Gunicorn",
-                "VIT"
-            ]
-        },
-        {
-            "image" : "images/projects/quiet-hours-poster.jpg",
-            "title": "Quiet Hours App",
-            "bodyText": "- An Android App that **automatically silences** your phone during class hours, designed for **VITians**.\n - Option to select class **slots** and **custom time**.\n - Option to put on Vibrate instead of Silent.",
-            "links": [
-                {
-                    "text": "GitHub",
-                    "href": "https://github.com/mayankagarwal09/QuietHours-Android"
-                }
-            ],
-            "tags" : [
-                "Java",
+                "Pet-проект",
                 "Android",
-                "Alarm Manager",
-                "VIT"
+                "WebGL",
+                "Ads",
+                "DOTween",
+                "TrueShadows",
+                "Unity Localization"
             ]
         },
         {
-            "title": "Secure Chat App",
-            "bodyText": "- An Android App that allows users to send texts in real time.\n - End to End encryption using **RSA** Algorithm.\n - Uses **Firebase** database to store texts.\n - Secured with **Fingerprint** lock.",
+            "image" : "images/projects/cat-tennis.gif",
+            "title": "Cat Tennis: All Stars",
+            "bodyText": "**Личный проект**\n\nИгра по мотивам тренда, где игроки сражаются против котов и других милых животных, одерживая победу за победой в большом теннисе.\n\nЧто запланировано:\n - Множество оппонентов для игры\n - Система уровней, которая поочередно будет открывать доступ к новому контенту\n - Сезонные собыия\n - Лидерборд, магазин, промокоды и многое другое",
             "links": [
                 {
-                    "text": "GitHub",
-                    "href": "https://github.com/mayankagarwal09/SecureChatApp"
+                    "text": "Скачать .apk",
+                    "href": "https://drive.filen.io/d/962606d6-b60e-4cc4-ae71-608b0975ede6#KztbDBmOaEd1pPTFMOetwdAK7MXQ4PKO"
                 }
             ],
             "tags" : [
-                "Java",
-                "Android",
+                "Pet-проект",
+                "DOTween",
+                "EventBusSystem",
+                "In-App WIP",
+                "Google Play Services"
+            ]
+        },
+        {
+            "image" : "images/projects/block-crash.gif",
+            "title": "Block Crash",
+            "bodyText": "**Личный проект**\n\nПочти завершенная игра, в которой я взял за основу популярную механику игры и дополнил своими собственными наработками, такими как:\n - Система уровней, чем больше играешь - тем больше открываешь\n - Ловушки, ускорение змейки\n - Уникальная кастомизация скина",
+            "links": [
+                {
+                    "text": "Скачать .apk",
+                    "href": "https://drive.filen.io/d/569317bb-9e1a-4182-b9d7-9cca7df5d0a6#mDe4EYcG5q5sH91nxmsXWDFV7GJi6EKv"
+                }
+            ],
+            "tags" : [
+                "Pet-проект",
+                "DOTween",
+                "PoolSystem",
+                "Ads"
+            ]
+        },
+        {
+            "image" : "images/projects/slime-farm.jpg",
+            "title": "Slime Farm - Mirror Test",
+            "bodyText": "**Личный проект**\n\nМне всегда было интересно создать что-то, во что смогут поиграть сразу несколько человек. В этом проекте я попробовал в действии библиотеку Mirror Networking. Результат для теста - очень интересный, все оказалось куда проще. Возможно, в будущем я продолжу развивать этот проект.\n\nСкачать демо-версию для ознакомления можно по кнопке ниже.",
+            "links": [
+                {
+                    "text": "Скачать демо",
+                    "href": "https://drive.filen.io/d/9aa96a9c-e355-410a-bce1-bb8b0bd05fe6#QsJpUGp8ig43bpOpY8ERIu61mNqXhOw2"
+                }
+            ],
+            "tags" : [
+                "Pet-проект",
+                "DOTween",
+                "PoolSystem",
+                "EventBusSystem",
+                "2D Physics",
+                "3D Physics",
+                "2.5D",
+                "Mirror Networking"
+            ]
+        },
+        {
+            "image" : "images/projects/cooking-craft.jpg",
+            "title": "Cooking Craft",
+            "bodyText": "**Тестовое задание**\n\nТестовое задание заключалось в создании небольшой игры, посвященной готовке из нескольких ингредиентов.\n\nПосмотреть исходный код можно по кнопке ниже. Там предоставлена более обширная информация о проделанной работе.",
+            "links": [
+                {
+                    "text": "Посмотреть код",
+                    "href": "https://gitfront.io/r/Pixoins/m49EEApqcySf/CookingCraft/"
+                }
+            ],
+            "tags" : [
+                "Тестовое задание",
+                "DOTween",
+                "Animations Curve",
+                "2D Physics"
+            ]
+        },
+        {
+            "image" : "images/projects/math-cross.png",
+            "title": "Math Cross",
+            "bodyText": "**Проект работодателя - Mediasurfer**\n\nПроект, в котором я был единственным разработчиком. Написал Core-механику, сверстал UI, работал над анимациями, рекламой, In-App покупками, локализацией и прочим.\n\n- Различные механики удержания игрока\n- Красивые достижения в награду за игру\n- Множество режимов игры (Около пяти)",
+            "links": [
+                {
+                    "text": "Google Play",
+                    "href": "https://play.google.com/store/apps/details?id=com.mathcross.game.puzzle.numbers.mathematicscrossword.math"
+                }
+            ],
+            "tags" : [
+                "Соло-разработка",
+                "Unity Shader Graph",
+                "Unity Localizations",
+                "In-App",
+                "TrueShadows",
+                "DOTween",
+                "Сложная Core-механика",
                 "Firebase",
-                "RSA"
+                "Facebook SDK"
             ]
         },
         {
-            "title": "MVVM Sample App",
-            "bodyText": "- An Android App that loads data from mock API and show in both **LinearLayout** and **GridLayout RecyclerView**.\n - Offline support using **Room** DB and **NetworkBoundResource**.\n - Uses the **MVVM** architecture.",
+            "image" : "images/projects/happy-birthday.jpg",
+            "title": "DIY Cake Maker Birthday Party",
+            "bodyText": "**Проект работодателя - Mediasurfer**\n\nНебольшое приложение с неплохим редактором: есть возможность накладывать стикеры, разноцветный текст и другое. Множество таймеров, помогающих удержать игрока и повысить retention.",
             "links": [
                 {
-                    "text": "GitHub",
-                    "href": "https://github.com/mayankagarwal09/mvvm-sample-app"
+                    "text": "Google Play",
+                    "href": "https://play.google.com/store/apps/details?id=com.happybirthday.diy.cakemaker.celebration.cardforfamilyandfriends"
                 }
             ],
             "tags" : [
-                "Kotlin",
-                "Android",
-                "MVVM",
-                "Room",
-                "Coroutines",
-                "Flow",
-                "Hilt-Dagger",
-                "NetworkBoundResource"
+                "Соло-разработка",
+                "Unity Shader Graph",
+                "Unity Localizations",
+                "In-App",
+                "TrueShadows",
+                "DOTween",
+                "Firebase",
+                "Facebook SDK"
             ]
         },
         {
-            "title": "Feed List App",
-            "bodyText": "- An Android App that loads list of feeds from a **paginated** API and shows in a RecyclerView.\n - Uses the **MVVM** architecture.\n - Uses **Paging 3** library along with other Architecture Components.",
+            "image" : "images/projects/lightsaber-simulator.jpg",
+            "title": "Sci-fi Lightsaber Simulator",
+            "bodyText": "**Проект работодателя - Mediasurfer**\n\nПроект для проверки различных SDK, рекламных сетей, прототипирования идей. Послужил шаблоном для будущих игр в этой компании.",
             "links": [
                 {
-                    "text": "GitHub",
-                    "href": "https://github.com/mayankagarwal09/Paginated-App-Feeds-List"
+                    "text": "Google Play",
+                    "href": "https://play.google.com/store/apps/details?id=noblebrand.scifilightsabersimulator.com"
                 }
             ],
             "tags" : [
-                "Kotlin",
-                "Android",
-                "MVVM",
-                "Paging 3",
-                "Coroutines",
-                "Flow"
+                "Соло-разработка",
+                "Unity Shader Graph",
+                "Unity Localizations",
+                "In-App",
+                "TrueShadows",
+                "DOTween",
+                "Firebase",
+                "Facebook SDK"
             ]
         },
         {
-            "title": "Task Tracker",
-            "bodyText": "- A simple Task Tracker web app made with **Angular 12**.\n - Uses **mock JSON server** to get, add, delete or update tasks.",
+            "image" : "images/projects/wordwaves.jpg",
+            "title": "WordWaves: wordsgame",
+            "bodyText": "**Проект работодателя - Zebomba Games**\n\n3D игра, в которой я проводил оптимизации графики для low-end устройств, писал/составлял шейдеры (HLSL/Shader Graph), запекал освещение на сцене и проводил ревью кода",
             "links": [
                 {
-                    "text": "GitHub",
-                    "href": "https://github.com/mayankagarwal09/task-tracker-app"
+                    "text": "Google Play",
+                    "href": "https://play.google.com/store/apps/details?id=com.zebomba.royal"
                 }
             ],
             "tags" : [
-                "TypeScript",
-                "Angular 12",
-                "JavaScript"
+                "Работа в команде",
+                "Оптимизация графики",
+                "Unity Shader Graph",
+                "Unity Localizations",
+                "3D Physics"
             ]
         },
         {
-            "title": "Image Encryption/Decryption",
-            "bodyText": "- A Web App for Image Encryption and Decryption made in **Django**.\n - Uses **SDES** algorithm for encryption/decryption.",
+            "image" : "images/projects/cargo-crush.jpg",
+            "title": "Cargo Crush",
+            "bodyText": "**Проект работодателя - Zebomba Games**\n\nПроект, над которым я активно работал и вскоре стал курировать.\n\nНад чем я больше всего работал: core-механика игры, клиент-серверные запросы, различные анимации, шейдеры, покупки, реклама и прочее.",
             "links": [
                 {
-                    "text": "GitHub",
-                    "href": "https://github.com/mayankagarwal09/img-encrypt-sdes"
+                    "text": "Google Play",
+                    "href": "https://play.google.com/store/apps/details?id=com.zebomba.fly"
                 }
             ],
             "tags" : [
-                "Python",
-                "Django",
-                "SDES",
-                "Cryptography"
+                "Работа в команде",
+                "DOTween",
+                "PoolSystem",
+                "In-App",
+                "Unity Shader Graph",
+                "Unity Localizations",
+                "Ads",
+                "Клиент-серверная архитектура",
+                "Tilemap 2D",
+                "2D Physics"
+            ]
+        },
+        {
+            "image" : "images/projects/zebomba-games.jpg",
+            "title": "Кругосветка: Найди отличия!",
+            "bodyText": "**Проект работодателя - Zebomba Games**\n\nКрупный проект, на котором я занимался оптимизацией, новыми функциями, исправлением багов, уменьшением размера сборки и прочими задачами.",
+            "tags" : [
+                "Работа в команде",
+                "DOTween",
+                "In-App",
+                "Ads",
+                "Клиент-серверная архитектура",
+                "Оптимизация"
             ]
         }
     ]
