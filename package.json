@@ -3,28 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "bootstrap": "^5.1.1",
-    "prop-types": "^15.7.2",
-    "react": "^17.0.2",
-    "react-bootstrap": "^2.0.0-rc.0",
-    "react-chrono": "^1.12.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
+    "bootstrap": "^5.3.3",
+    "prop-types": "^15.8.1",
+    "react": "^18.3.1",
+    "react-bootstrap": "^2.10.5",
+    "react-chrono": "^2.6.1",
     "react-dark-mode-toggle": "^0.2.0",
-    "react-dom": "^17.0.2",
-    "react-markdown": "^7.0.1",
+    "react-dom": "^18.3.1",
+    "react-markdown": "^9.0.1",
     "react-reveal": "^1.2.2",
-    "react-router": "^5.2.1",
-    "react-router-dom": "^5.3.0",
+    "react-router": "^6.28.0",
+    "react-router-dom": "^6.28.0",
     "react-scripts": "^5.0.1",
-    "react-social-icons": "^5.6.1",
-    "styled-components": "^5.3.1",
-    "typewriter-effect": "^2.18.2",
+    "react-social-icons": "^6.18.0",
+    "styled-components": "^6.1.13",
+    "typewriter-effect": "^2.21.0",
     "use-dark-mode": "^2.3.1",
     "vertical-timeline-component-for-react": "^1.0.7",
-    "web-vitals": "^1.0.1",
-    "webpack": "^5.64.4"
+    "web-vitals": "^4.2.4",
+    "webpack": "^5.96.1"
   },
   "browserslist": {
     "production": [
@@ -45,12 +45,12 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-plugin-import": "^2.24.2",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-react": "^7.26.1",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "react-error-overlay": "6.0.9"
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "react-error-overlay": "6.0.11"
   },
   "resolutions": {
     "react-error-overlay": "6.0.9"
