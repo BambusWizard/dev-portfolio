@@ -1,28 +1,25 @@
 {
     "projects" : [
         {
-            "image" : "images/projects/cat-journey.gif",
-            "title": "Cat Journey 2",
-            "bodyText": "**Личный проект**\n\nПолноценная игра для PC платформы, над которой я работаю в свободное время. Хочется создать свой необычный мир, рассказать историю о том, как кот попал в будущее и на помощь ему пришел робот.\n\nЕсть демо-версия игры, с небольшим количеством наработок и подсказками, куда можно пройти и что посмотреть.",
+            "image": "images/projects/cat-tennis.gif",
+            "title": "Cat Tennis: All Stars",
+            "bodyText": "**Личный проект**\n\nИгра по мотивам тренда, где игроки сражаются против котов и других милых животных, одерживая победу за победой в большом теннисе.\n\nЧто запланировано:\n - Множество оппонентов для игры\n - Система уровней, которая поочередно будет открывать доступ к новому контенту\n - Сезонные собыия\n - Лидерборд, магазин, промокоды и многое другое",
             "links": [
                 {
-                    "text": "Скачать демо",
-                    "href": "https://drive.filen.io/d/be90931c-0605-4268-bbd5-5f399477ce81#iSlJBFNaAh01kVwTRO5RrIa8Wn4UxX0x"
+                    "text": "Сыграть на itch.io",
+                    "href": "https://pixoins.itch.io/cat-tennis?secret=fig1lr0aiNqG3ICjxcwXaU8krc"
                 }
             ],
-            "tags" : [
+            "tags": [
                 "Pet-проект",
                 "DOTween",
-                "PoolSystem",
                 "EventBusSystem",
-                "Unity Localizations",
-                "Dialogue System (Nodes)",
-                "Tilemap 2D",
-                "2D Physics"
+                "In-App WIP",
+                "Google Play Services"
             ]
         },
         {
-            "image" : "images/projects/graphical-dictations.png",
+            "image": "images/projects/graphical-dictations.png",
             "title": "Графические Диктанты",
             "bodyText": "**Личный проект**\n\nПервый завершенный проект, выпущенный в 2018 году. Активно поддерживаю и обновляю.\n - Занял нишу графических диктантов и вышел на 1 место в поиске\n - Различные режимы игры, обучение и удобный интерфейс\n - Выложен на нескольих платформах",
             "links": [
@@ -35,7 +32,7 @@
                     "href": "https://yandex.ru/games/app/262912?lang=ru"
                 }
             ],
-            "tags" : [
+            "tags": [
                 "Pet-проект",
                 "Android",
                 "WebGL",
@@ -43,24 +40,6 @@
                 "DOTween",
                 "TrueShadows",
                 "Unity Localization"
-            ]
-        },
-        {
-            "image" : "images/projects/cat-tennis.gif",
-            "title": "Cat Tennis: All Stars",
-            "bodyText": "**Личный проект**\n\nИгра по мотивам тренда, где игроки сражаются против котов и других милых животных, одерживая победу за победой в большом теннисе.\n\nЧто запланировано:\n - Множество оппонентов для игры\n - Система уровней, которая поочередно будет открывать доступ к новому контенту\n - Сезонные собыия\n - Лидерборд, магазин, промокоды и многое другое",
-            "links": [
-                {
-                    "text": "Скачать .apk",
-                    "href": "https://drive.filen.io/d/962606d6-b60e-4cc4-ae71-608b0975ede6#KztbDBmOaEd1pPTFMOetwdAK7MXQ4PKO"
-                }
-            ],
-            "tags" : [
-                "Pet-проект",
-                "DOTween",
-                "EventBusSystem",
-                "In-App WIP",
-                "Google Play Services"
             ]
         },
         {
@@ -78,6 +57,27 @@
                 "DOTween",
                 "PoolSystem",
                 "Ads"
+            ]
+        },
+        {
+            "image": "images/projects/cat-journey.gif",
+            "title": "Cat Journey 2",
+            "bodyText": "**Личный проект**\n\nПолноценная игра для PC платформы, над которой я работаю в свободное время. Хочется создать свой необычный мир, рассказать историю о том, как кот попал в будущее и на помощь ему пришел робот.\n\nЕсть демо-версия игры, с небольшим количеством наработок и подсказками, куда можно пройти и что посмотреть.",
+            "links": [
+                {
+                    "text": "Скачать демо",
+                    "href": "https://drive.filen.io/d/be90931c-0605-4268-bbd5-5f399477ce81#iSlJBFNaAh01kVwTRO5RrIa8Wn4UxX0x"
+                }
+            ],
+            "tags": [
+                "Pet-проект",
+                "DOTween",
+                "PoolSystem",
+                "EventBusSystem",
+                "Unity Localizations",
+                "Dialogue System (Nodes)",
+                "Tilemap 2D",
+                "2D Physics"
             ]
         },
         {
