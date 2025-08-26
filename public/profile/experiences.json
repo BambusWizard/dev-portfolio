@@ -2,6 +2,17 @@
     "experiences": [
         {
             "title": "Middle Unity Developer",
+            "subtitle": "ИП Минков",
+            "workType": "Full-time, проектная",
+            "workDescription": [
+                "Разработка и поддержание новой игры почти с нуля, solo-разработка",
+                "Подключение SDK, настройка покупок, рекламы",
+                "Пригодились навыки работы в Blender"
+            ],
+            "dateText": "02/2025 — настоящее время"
+        },
+        {
+            "title": "Middle Unity Developer",
             "subtitle": "Mediasurfer",
             "workType": "Full-time",
             "workDescription": [
@@ -9,7 +20,7 @@
                 "Работа в неболшой Agile команде.",
                 "Ведение всех проектов (Разработка)"
             ],
-            "dateText": "01/2024 — 10/2024"
+            "dateText": "01/2024 — 02/2025"
         },
         {
             "title": "Junior/Middle Unity Developer",
