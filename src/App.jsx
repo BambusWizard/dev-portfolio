@@ -8,6 +8,7 @@ import AppContext from './AppContext';
 import MainApp from './MainApp';
 import GlobalStyles from './theme/GlobalStyles';
 import { lightTheme, darkTheme } from './theme/themes';
+import BackgroundCanvas from './components/BackgroundCanvas';
 
 function App() {
   window.matchMedia = null;
@@ -17,6 +18,7 @@ function App() {
     <AppContext.Provider value={{ darkMode }}>
       <ThemeProvider theme={darkMode.value ? darkTheme : lightTheme}>
         <GlobalStyles />
+        <BackgroundCanvas width={window.innerWidth} height={window.innerHeight} />
         <div className="App">
           <BrowserRouter>
             <MainApp />
