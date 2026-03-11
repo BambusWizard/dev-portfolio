@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -15,17 +16,18 @@ function App() {
   const darkMode = useDarkMode(true);
 
   return (
-    <AppContext.Provider value={{ darkMode }}>
-      <ThemeProvider theme={darkMode.value ? darkTheme : lightTheme}>
-        <GlobalStyles />
-        <BackgroundCanvas width={window.innerWidth} height={window.innerHeight} />
-        <div className="App">
-          <BrowserRouter>
-            <MainApp />
-          </BrowserRouter>
-        </div>
-      </ThemeProvider>
-    </AppContext.Provider>
+      <AppContext.Provider value={{ darkMode }}>
+        <ThemeProvider theme={darkMode.value ? darkTheme : lightTheme}>
+          <GlobalStyles />
+          <div className="App">
+            <BrowserRouter>
+              {/* Move it here so it has access to the Router context */}
+              <BackgroundCanvas />
+              <MainApp />
+            </BrowserRouter>
+          </div>
+        </ThemeProvider>
+      </AppContext.Provider>
   );
 }
 

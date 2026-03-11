@@ -1,108 +1,70 @@
-import React, { useContext } from 'react';
-import {
-  Button, Card, Badge, Col,
-} from 'react-bootstrap';
-import PropTypes from 'prop-types';
+/* eslint-disable */
+import React, { useContext, useState, useEffect, useRef } from 'react';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import { ThemeContext } from 'styled-components';
-import ReactMarkdown from 'react-markdown';
+import ProjectModal from './ProjectModal'; // Ensure this path is correct!
 
-const styles = {
-  badgeStyle: {
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: 5,
-    paddingBottom: 5,
-    margin: 5,
-  },
-  cardStyle: {
-    borderRadius: 10,
-    minHeight: 736,
-    backgroundColor: 'white',
-  },
-  cardTitleStyle: {
-    fontSize: 24,
-    fontWeight: 700,
-  },
-  cardTextStyle: {
-    textAlign: 'left',
-  },
-  linkStyle: {
-    textDecoration: 'none',
-    padding: 10,
-  },
-  buttonStyle: {
-    margin: 5,
-  },
-};
+const ProjectCard = ({ project, isGlobalPaused, setGlobalPause }) => {
+    const theme = useContext(ThemeContext);
+    const [show, setShow] = useState(false);
+    const [hover, setHover] = useState(false);
+    const videoRef = useRef(null);
 
-const ProjectCard = (props) => {
-  const theme = useContext(ThemeContext);
-  const parseBodyText = (text) => <ReactMarkdown children={text} />;
+    const isVideo = (path) => path?.match(/\.(mp4|webm|ogg)$/i);
 
-  const { project } = props;
+    useEffect(() => {
+        if (videoRef.current && isVideo(project?.image)) {
+            if (isGlobalPaused) videoRef.current.pause();
+            else videoRef.current.play().catch(() => {});
+        }
+    }, [isGlobalPaused, project?.image]);
 
-  return (
-    <Col>
-      <Card
-        style={{
-          ...styles.cardStyle,
-          backgroundColor: theme.cardBackground,
-          borderColor: theme.cardBorderColor,
-        }}
-        text={theme.bsSecondaryVariant}
-      >
-        <Card.Img variant="top" src={project?.image} />
-        <div className="ProjectContainer">
-          <Card.Body>
-            <Card.Title style={styles.cardTitleStyle}>{project.title}</Card.Title>
-            <Card.Text style={styles.cardTextStyle}>
-              {parseBodyText(project.bodyText)}
-            </Card.Text>
-          </Card.Body>
-          <Card.Body>
-            {project?.links?.map((link) => (
-              <Button
-                key={link.href}
-                style={styles.buttonStyle}
-                variant={'outline-' + theme.bsSecondaryVariant}
-                onClick={() => window.open(link.href, '_blank')}
-              >
-                {link.text}
-              </Button>
-            ))}
-          </Card.Body>
-          {project.tags && (
-            <Card.Footer style={{ backgroundColor: theme.cardFooterBackground }}>
-              {project.tags.map((tag) => (
-                <Badge
-                  key={tag}
-                  pill
-                  bg={theme.bsSecondaryVariant}
-                  text={theme.bsPrimaryVariant}
-                  style={styles.badgeStyle}
-                >
-                  {tag}
-                </Badge>
-              ))}
-            </Card.Footer>
-          )}
-        </div>
-      </Card>
-    </Col>
-  );
-};
+    const handleOpen = () => {
+        setShow(true);
+        if (setGlobalPause) setGlobalPause(true);
+    };
 
-ProjectCard.propTypes = {
-  project: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    bodyText: PropTypes.string.isRequired,
-    image: PropTypes.string,
-    links: PropTypes.arrayOf(PropTypes.shape({
-      text: PropTypes.string.isRequired,
-      href: PropTypes.string.isRequired,
-    })),
-    tags: PropTypes.arrayOf(PropTypes.string),
-  }).isRequired,
+    const handleClose = () => {
+        setShow(false);
+        if (setGlobalPause) setGlobalPause(false);
+    };
+
+    const renderCardMedia = (src) => {
+        const style = {
+            width: '100%', height: 'auto', objectFit: 'cover', borderRadius: 12,
+            filter: isGlobalPaused ? 'blur(3px) brightness(0.7)' : 'none',
+            transition: 'filter 0.3s ease'
+        };
+        if (isVideo(src)) {
+            return <video ref={videoRef} src={src} autoPlay loop muted playsInline style={style} />;
+        }
+        return <img src={src} alt={project?.title} style={style} />;
+    };
+
+    return (
+        <>
+            <Card
+                onClick={handleOpen}
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}
+                style={{
+                    borderRadius: 12, cursor: 'pointer', position: 'relative', overflow: 'hidden',
+                    border: 'none', backgroundColor: 'transparent', transition: 'transform 0.3s ease',
+                    transform: hover && !isGlobalPaused ? 'translateY(-5px)' : 'translateY(0)',
+                    pointerEvents: isGlobalPaused && !show ? 'none' : 'auto'
+                }}
+            >
+                {renderCardMedia(project?.image)}
+                <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.8))', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', opacity: hover && !isGlobalPaused ? 1 : 0, transition: 'opacity 0.3s ease', padding: '20px', borderRadius: 12 }}>
+                    <Card.Title style={{ fontSize: 22, fontWeight: 800, color: '#fff', textAlign: 'center' }}>{project?.title}</Card.Title>
+                    <Button variant="light" size="sm" style={{ fontWeight: 600, borderRadius: '8px' }}>Открыть описание</Button>
+                </div>
+            </Card>
+
+            <ProjectModal show={show} onHide={handleClose} project={project} theme={theme} />
+        </>
+    );
 };
 
 export default ProjectCard;
