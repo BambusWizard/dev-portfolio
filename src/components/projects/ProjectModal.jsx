@@ -14,13 +14,16 @@ const styles = {
         borderBottom: '1px solid rgba(255,255,255,0.05)',
         padding: '1.5rem 2.5rem',
     },
-    modalBody: { padding: '1.5rem 2.5rem 2.5rem', lineHeight: '1.7' },
-
-    // Updated for "Album" height matching
+    modalBody: {
+        padding: '1.5rem 2.5rem 2.5rem',
+        lineHeight: '1.7',
+        maxHeight: '80vh', // Prevent modal from going off-screen
+        overflowY: 'auto'
+    },
     imageContainer: {
         width: '100%',
-        aspectRatio: '16 / 9', // Maintains consistent "Album" shape
-        backgroundColor: 'rgba(0,0,0,0.2)',
+        aspectRatio: '16 / 9',
+        backgroundColor: 'rgba(0,0,0,0.1)',
         borderRadius: '18px',
         marginBottom: '1.5rem',
         display: 'flex',
@@ -28,32 +31,43 @@ const styles = {
         alignItems: 'center',
         overflow: 'hidden',
         position: 'relative',
-        boxShadow: 'inset 0 0 20px rgba(0,0,0,0.2)'
     },
     mediaElement: {
         width: '100%',
         height: '100%',
-        objectFit: 'contain', // Fills the frame like a photo album
-        transition: 'opacity 0.3s ease-in-out, transform 0.3s ease'
+        objectFit: 'contain',
+        transition: 'opacity 0.2s ease-in-out'
     },
     galleryContainer: {
         display: 'flex',
         overflowX: 'auto',
         gap: '12px',
-        padding: '5px 5px 15px 5px',
-        marginBottom: '1rem',
-        justifyContent: 'center',
+        padding: '10px 0',
+        marginBottom: '1.5rem',
+        justifyContent: 'center', // Centered like iOS
         scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
+        WebkitOverflowScrolling: 'touch', // Smooth momentum scrolling for mobile
     },
     galleryItem: {
-        flex: '0 0 auto',
-        height: '70px', // Slightly taller for better visibility
-        aspectRatio: '16 / 9', // Matches the main container's ratio
-        borderRadius: '10px',
+        flex: '0 0 70px', // Slightly smaller, more refined
+        height: '70px',
+        borderRadius: '8px', // Extra rounded iOS look
         cursor: 'pointer',
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-        border: '2px solid transparent',
-        overflow: 'hidden'
+        transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)', // Smooth iOS-like curve
+        overflow: 'hidden',
+        position: 'relative',
+        backgroundColor: 'rgba(0,0,0,0.2)',
+        outline: 'none', // Removes the blue/black focus ring
+        border: 'none',  // Removes the border you asked to take out
+        userSelect: 'none',
+        WebkitTapHighlightColor: 'transparent', // Removes the gray flash on mobile tap
+    },
+    thumbMedia: {
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        pointerEvents: 'none', // Prevents interaction with the video tag itself
     }
 };
 
@@ -61,9 +75,15 @@ const ProjectModal = ({ show, onHide, project, theme }) => {
     const [activeIdx, setActiveIdx] = useState(0);
     const [isChanging, setIsChanging] = useState(false);
 
+    // Reset index when modal opens or project changes
     useEffect(() => {
-        if (show) setActiveIdx(0);
+        if (show) {
+            setActiveIdx(0);
+            setIsChanging(false);
+        }
     }, [show, project?.title]);
+
+    if (!project) return null;
 
     const allMedia = [project?.cover, ...(project?.images || [])].filter(Boolean);
     const currentMedia = allMedia[activeIdx];
@@ -73,20 +93,25 @@ const ProjectModal = ({ show, onHide, project, theme }) => {
     const handleGalleryClick = (idx) => {
         if (idx === activeIdx) return;
         setIsChanging(true);
+        // Short delay for the fade-out effect
         setTimeout(() => {
             setActiveIdx(idx);
             setIsChanging(false);
-        }, 150);
+        }, 120);
     };
 
-    const renderMedia = (src, style) => {
+    // Helper for main display
+    const renderMainMedia = (src) => {
+        const mediaStyle = {
+            ...styles.mediaElement,
+            opacity: isChanging ? 0 : 1,
+        };
+
         if (isVideo(src)) {
-            return <video src={src} autoPlay muted loop playsInline style={style} />;
+            return <video key={src} src={src} autoPlay muted loop playsInline style={mediaStyle} />;
         }
-        return <img src={src} alt="Project Media" style={style} />;
+        return <img key={src} src={src} alt="Project Media" style={mediaStyle} />;
     };
-
-    if (!project) return null;
 
     return (
         <Modal show={show} onHide={onHide} centered size="lg">
@@ -96,40 +121,54 @@ const ProjectModal = ({ show, onHide, project, theme }) => {
                 </Modal.Header>
 
                 <Modal.Body style={styles.modalBody} className="custom-scrollbar">
-                    {/* Main Stage */}
+                    {/* Main Display */}
                     <div style={styles.imageContainer}>
-                        {renderMedia(currentMedia, {
-                            ...styles.mediaElement,
-                            opacity: isChanging ? 0 : 1,
-                            transform: isChanging ? 'scale(1.02)' : 'scale(1)'
-                        })}
+                        {renderMainMedia(currentMedia)}
                     </div>
 
                     {/* Gallery Strip */}
                     {allMedia.length > 1 && (
-                        <div style={styles.galleryContainer}>
+                        <div style={styles.galleryContainer} className="no-scrollbar">
                             {allMedia.map((src, idx) => {
                                 const isActive = activeIdx === idx;
+                                const isMediaVideo = isVideo(src);
+
                                 return (
                                     <div
-                                        key={idx}
+                                        key={`${project.title}-thumb-${idx}`}
                                         onClick={() => handleGalleryClick(idx)}
+                                        role="button"
+                                        tabIndex={0}
                                         style={{
                                             ...styles.galleryItem,
-                                            opacity: isActive ? 1 : 0.5,
-                                            transform: isActive ? 'scale(1.05)' : 'scale(1)',
-                                            borderColor: isActive ? theme.bsSecondaryVariant : 'transparent',
-                                            filter: isActive ? 'brightness(1.1)' : 'brightness(0.8)'
+                                            opacity: isActive ? 1 : 0.4,
+                                            transform: isActive ? 'scale(1.15)' : 'scale(1)',
+                                            // Using a soft shadow instead of an outline
+                                            boxShadow: isActive ? '0 8px 20px rgba(0,0,0,0.3)' : 'none',
                                         }}
                                     >
-                                        {renderMedia(src, { width: '100%', height: '100%', objectFit: 'cover' })}
+                                        {isMediaVideo ? (
+                                            <video
+                                                src={src}
+                                                autoPlay
+                                                muted
+                                                loop
+                                                playsInline
+                                                style={styles.thumbMedia}
+                                            />
+                                        ) : (
+                                            <img
+                                                src={src}
+                                                alt="thumb"
+                                                style={styles.thumbMedia}
+                                            />
+                                        )}
                                     </div>
                                 );
                             })}
                         </div>
                     )}
 
-                    {/* Text Content */}
                     <div style={{ marginTop: '1.5rem' }}>
                         <ReactMarkdown
                             components={{
@@ -141,7 +180,6 @@ const ProjectModal = ({ show, onHide, project, theme }) => {
                         </ReactMarkdown>
                     </div>
 
-                    {/* Badges */}
                     {project.tags && (
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '2rem' }}>
                             {project.tags.map((tag) => (
