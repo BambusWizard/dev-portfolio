@@ -1,11 +1,19 @@
 /* eslint-disable */
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
-function BackgroundCanvas({
-                            backgroundColor = '#111111',
-                            baseDensity = 14000,
-                          }) {
+/**
+ * High-Performance Background Canvas
+ * Features:
+ * 1. Spatial Partitioning Grid (O(n) complexity vs O(n^2))
+ * 2. Alpha Bucketing (Batched draw calls for transparency)
+ * 3. Auto-pause on specific routes
+ */
+const BackgroundCanvas = forwardRef(({
+                                       backgroundColor = '#111111',
+                                       baseDensity = 14000,
+                                       externalPause = false,
+                                     }, ref) => {
   const location = useLocation();
   const canvasRef = useRef(null);
   const starsRef = useRef([]);
@@ -13,32 +21,32 @@ function BackgroundCanvas({
   const requestRef = useRef();
   const lastTimeRef = useRef(performance.now());
 
+  // Animation state tracking
+  const isRunningRef = useRef(true);
+
+  // Expose control to parent components
+  useImperativeHandle(ref, () => ({
+    getIsRunning: () => isRunningRef.current,
+    setIsRunning: (val) => { isRunningRef.current = val; }
+  }));
+
+  // Constants for behavior
   const REPULSE_DISTANCE = 120;
   const REPULSE_STRENGTH = 5.0;
   const SPRINGINESS = 0.02;
   const FRICTION = 0.82;
   const CONNECT_DISTANCE = 140;
+  const GRID_SIZE = CONNECT_DISTANCE; // Cells sized to match max connection length
 
-  // We check if we should be animating
   const isProjectsPage = location.pathname === '/projects';
 
   useEffect(() => {
+    // Determine if we should be animating
+    isRunningRef.current = !isProjectsPage && !externalPause;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
-
-    const ctx = canvas.getContext('2d', { alpha: false });
-
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      initStars(canvas.width, canvas.height);
-
-      // If we are on projects page, we need to draw one single frame 
-      // immediately after resize so the screen isn't blank
-      if (isProjectsPage) {
-        drawStaticFrame();
-      }
-    };
+    const ctx = canvas.getContext('2d', { alpha: false }); // Optimization: Opaque background
 
     const initStars = (w, h) => {
       starsRef.current = [];
@@ -48,11 +56,8 @@ function BackgroundCanvas({
 
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
-          const centerX = c * cellSize + cellSize / 2;
-          const centerY = r * cellSize + cellSize / 2;
-          const spawnX = centerX + (Math.random() - 0.5) * cellSize * 0.8;
-          const spawnY = centerY + (Math.random() - 0.5) * cellSize * 0.8;
-
+          const spawnX = (c * cellSize) + (Math.random() * cellSize);
+          const spawnY = (r * cellSize) + (Math.random() * cellSize);
           starsRef.current.push({
             spawnX, spawnY, x: spawnX, y: spawnY,
             radius: Math.random() * 1.5 + 0.5,
@@ -62,49 +67,21 @@ function BackgroundCanvas({
       }
     };
 
-    // Helper to draw a single frame without calculations
-    const drawStaticFrame = () => {
-      ctx.fillStyle = backgroundColor;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      const limitSq = CONNECT_DISTANCE * CONNECT_DISTANCE;
-      for (let i = 0; i < starsRef.current.length; i++) {
-        for (let j = i + 1; j < starsRef.current.length; j++) {
-          const a = starsRef.current[i];
-          const b = starsRef.current[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const dSq = dx * dx + dy * dy;
-          if (dSq < limitSq) {
-            const opacity = (1 - Math.sqrt(dSq) / CONNECT_DISTANCE) * 0.4;
-            ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
-            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-          }
-        }
-      }
-      ctx.fillStyle = 'white';
-      starsRef.current.forEach(star => {
-        ctx.beginPath(); ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2); ctx.fill();
-      });
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initStars(canvas.width, canvas.height);
+      // If paused, draw one static frame so the background isn't black
+      if (!isRunningRef.current) drawFrame(0);
     };
 
-    const animate = (currentTime) => {
-      // THE FIX: If we move to projects, stop the loop
-      if (isProjectsPage) {
-        cancelAnimationFrame(requestRef.current);
-        return;
-      }
-
-      const deltaTime = (currentTime - lastTimeRef.current) / 16.67;
-      lastTimeRef.current = currentTime;
-      const dt = Math.min(deltaTime, 2);
-
+    const drawFrame = (dt) => {
       ctx.fillStyle = backgroundColor;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Physics logic
+      // 1. PHYSICS UPDATE
       starsRef.current.forEach(star => {
-        if (mouseRef.current.x !== null) {
+        if (isRunningRef.current && mouseRef.current.x !== null) {
           const dx = star.x - mouseRef.current.x;
           const dy = star.y - mouseRef.current.y;
           const distSq = dx * dx + dy * dy;
@@ -115,6 +92,7 @@ function BackgroundCanvas({
             star.vy += (dy / dist) * force * dt;
           }
         }
+        // Return to home position logic
         star.vx += (star.spawnX - star.x) * SPRINGINESS * dt;
         star.vy += (star.spawnY - star.y) * SPRINGINESS * dt;
         star.vx *= Math.pow(FRICTION, dt);
@@ -123,45 +101,99 @@ function BackgroundCanvas({
         star.y += star.vy * dt;
       });
 
-      // Connections
-      const limitSq = CONNECT_DISTANCE * CONNECT_DISTANCE;
-      for (let i = 0; i < starsRef.current.length; i++) {
-        for (let j = i + 1; j < starsRef.current.length; j++) {
-          const a = starsRef.current[i];
-          const b = starsRef.current[j];
-          const dSq = (a.x - b.x)**2 + (a.y - b.y)**2;
-          if (dSq < limitSq) {
-            const opacity = (1 - Math.sqrt(dSq) / CONNECT_DISTANCE) * 0.4;
-            ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
-            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-          }
-        }
-      }
-
-      // Particles
-      ctx.fillStyle = 'white';
+      // 2. SPATIAL GRID CONSTRUCTION
+      // Instead of comparing every star to every star, we bucket them by location
+      const grid = new Map();
       starsRef.current.forEach(star => {
-        ctx.beginPath(); ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2); ctx.fill();
+        const gx = Math.floor(star.x / GRID_SIZE);
+        const gy = Math.floor(star.y / GRID_SIZE);
+        const key = `${gx},${gy}`;
+        if (!grid.has(key)) grid.set(key, []);
+        grid.get(key).push(star);
       });
 
-      requestRef.current = requestAnimationFrame(animate);
+      // 3. BATCHED LINE DRAWING (Alpha Bucketing)
+      const limitSq = CONNECT_DISTANCE * CONNECT_DISTANCE;
+      const opacityBuckets = { 1: [], 2: [], 3: [], 4: [] };
+
+      starsRef.current.forEach(a => {
+        const gx = Math.floor(a.x / GRID_SIZE);
+        const gy = Math.floor(a.y / GRID_SIZE);
+
+        // Check neighbors (using offset to avoid redundant distance checks)
+        for (let ox = 0; ox <= 1; ox++) {
+          for (let oy = -1; oy <= 1; oy++) {
+            const neighbors = grid.get(`${gx + ox},${gy + oy}`);
+            if (neighbors) {
+              neighbors.forEach(b => {
+                if (a === b) return;
+                const dx = a.x - b.x;
+                const dy = a.y - b.y;
+                const dSq = dx * dx + dy * dy;
+
+                if (dSq < limitSq) {
+                  const dist = Math.sqrt(dSq);
+                  const alpha = (1 - dist / CONNECT_DISTANCE) * 0.4;
+                  const bucket = Math.ceil(alpha * 10);
+                  if (opacityBuckets[bucket]) {
+                    opacityBuckets[bucket].push(a.x, a.y, b.x, b.y);
+                  }
+                }
+              });
+            }
+          }
+        }
+      });
+
+      // Draw all lines for each opacity level in one go
+      Object.keys(opacityBuckets).forEach(b => {
+        const lines = opacityBuckets[b];
+        if (lines.length === 0) return;
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(255, 255, 255, ${b / 10})`;
+        ctx.lineWidth = 0.8;
+        for (let i = 0; i < lines.length; i += 4) {
+          ctx.moveTo(lines[i], lines[i+1]);
+          ctx.lineTo(lines[i+2], lines[i+3]);
+        }
+        ctx.stroke();
+      });
+
+      // 4. BATCHED STAR DRAWING
+      ctx.beginPath();
+      ctx.fillStyle = 'white';
+      starsRef.current.forEach(star => {
+        ctx.moveTo(star.x + star.radius, star.y);
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+      });
+      ctx.fill();
     };
 
+    const animate = (currentTime) => {
+      const deltaTime = (currentTime - lastTimeRef.current) / 16.67;
+      lastTimeRef.current = currentTime;
+      const dt = Math.min(deltaTime, 2);
+
+      drawFrame(dt);
+
+      if (isRunningRef.current) {
+        requestRef.current = requestAnimationFrame(animate);
+      }
+    };
+
+    window.addEventListener('resize', resize);
     const handleMove = (e) => {
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       const clientY = e.touches ? e.touches[0].clientY : e.clientY;
       mouseRef.current = { x: clientX, y: clientY };
     };
 
-    window.addEventListener('resize', resize);
     window.addEventListener('mousemove', handleMove);
     window.addEventListener('touchstart', handleMove, { passive: true });
     window.addEventListener('touchmove', handleMove, { passive: true });
 
     resize();
-    if (!isProjectsPage) {
-      requestRef.current = requestAnimationFrame(animate);
-    }
+    requestRef.current = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener('resize', resize);
@@ -170,7 +202,7 @@ function BackgroundCanvas({
       window.removeEventListener('touchmove', handleMove);
       cancelAnimationFrame(requestRef.current);
     };
-  }, [backgroundColor, baseDensity, isProjectsPage]); // Triggers when isProjectsPage changes
+  }, [backgroundColor, baseDensity, isProjectsPage, externalPause]);
 
   return (
       <canvas
@@ -183,6 +215,6 @@ function BackgroundCanvas({
           }}
       />
   );
-}
+});
 
 export default BackgroundCanvas;

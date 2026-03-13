@@ -6,16 +6,15 @@ import Fade from 'react-reveal/Fade';
 import endpoints from '../constants/endpoints';
 import ProjectCard from './projects/ProjectCard';
 import FallbackSpinner from './FallbackSpinner';
+import yaml from 'js-yaml';
 
 const Projects = (props) => {
   const theme = useContext(ThemeContext);
   const [data, setData] = useState(null);
   const [width, setWidth] = useState(window.innerWidth);
 
-  // Top Level (Section) and Sub Level (Category) states
   const [activeSection, setActiveSection] = useState('Проекты');
   const [filter, setFilter] = useState('Все');
-
   const [isAnyModalOpen, setIsAnyModalOpen] = useState(false);
 
   useEffect(() => {
@@ -25,43 +24,54 @@ const Projects = (props) => {
   }, []);
 
   useEffect(() => {
-    fetch(endpoints.projects, { method: 'GET' })
-        .then((res) => res.json())
-        .then((res) => setData(res))
-        .catch((err) => console.error(err));
+    // Fetch both YAML files at once
+    Promise.all([
+      fetch(endpoints.projects).then((res) => res.text()),
+      fetch(endpoints.others).then((res) => res.text()),
+    ])
+        .then(([projectsText, othersText]) => {
+          const projectsDoc = yaml.load(projectsText);
+          const othersDoc = yaml.load(othersText);
+
+          // Merge them into one data structure
+          setData({
+            projects: projectsDoc.projects || [],
+            others: othersDoc.projects || [], // Assuming 'others.yml' also uses the 'projects' key internally
+          });
+        })
+        .catch((err) => console.error('YAML Loading Error:', err));
   }, []);
 
-  /**
-   * Grouping Logic:
-   * 'Инструменты' and 'Навыки' go to "Прочее".
-   * Everything else stays in "Проекты".
-   */
+  // Calculate unique categories for both files
   const sections = useMemo(() => {
     if (!data) return { projects: [], others: [] };
-    const otherTitles = ['Инструменты', 'Навыки'];
-    const allCats = Array.from(new Set(data.projects.map(p => p.category).filter(Boolean)));
+
+    const getCats = (items) => Array.from(new Set(items.map((p) => p.category).filter(Boolean))).sort();
 
     return {
-      projects: ['Все', ...allCats.filter(c => !otherTitles.includes(c)).sort()],
-      others: allCats.filter(c => otherTitles.includes(c)).sort()
+      projects: ['Все', ...getCats(data.projects)],
+      others: ['Все', ...getCats(data.others)],
     };
   }, [data]);
 
   const handleSectionChange = (section) => {
     setActiveSection(section);
-    // Reset the filter to the first item of the new group
-    setFilter(section === 'Проекты' ? 'Все' : sections.others[0]);
+    setFilter('Все'); // Always reset to 'Все' when switching main tabs
   };
 
-  const filteredProjects = useMemo(() => {
-    const projects = data?.projects || [];
-    if (filter === 'Все') {
-      return projects.filter((p) => p.IsIncludeInAll === true);
-    }
-    return projects.filter((p) => p.category === filter);
-  }, [data, filter]);
+  const filteredItems = useMemo(() => {
+    if (!data) return [];
 
-  // Masonry layout variables
+    // Pick the source based on main tab
+    const source = activeSection === 'Проекты' ? data.projects : data.others;
+
+    if (filter === 'Все') {
+      return source;
+    }
+    return source.filter((p) => p.category === filter);
+  }, [data, activeSection, filter]);
+
+  // Masonry logic
   const CARD_MAX_WIDTH = 320;
   const GAP = 25;
   const MAX_COLS = 4;
@@ -69,19 +79,19 @@ const Projects = (props) => {
 
   const columns = useMemo(() => {
     const cols = Array.from({ length: colCount }, () => []);
-    filteredProjects.forEach((project, index) => {
-      cols[index % colCount].push(project);
+    filteredItems.forEach((item, index) => {
+      cols[index % colCount].push(item);
     });
     return cols;
-  }, [filteredProjects, colCount]);
+  }, [filteredItems, colCount]);
 
   return (
       <>
         {data ? (
             <div className="section-content-container">
               <Container>
-                {/* FIRST ROW: Group Selection */}
-                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '15px', marginTop: '15px'  }}>
+                {/* Main Tabs: Проекты vs Прочее */}
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '15px', marginTop: '15px' }}>
                   <ButtonGroup>
                     {['Проекты', 'Прочее'].map((sect) => (
                         <Button
@@ -96,7 +106,7 @@ const Projects = (props) => {
                   </ButtonGroup>
                 </div>
 
-                {/* SECOND ROW: Specific Categories */}
+                {/* Sub-Filters: Все, Category A, Category B... */}
                 <div style={{
                   display: 'flex',
                   justifyContent: 'center',
@@ -117,21 +127,22 @@ const Projects = (props) => {
                   ))}
                 </div>
 
-                {/* Grid Display */}
+                {/* The Grid */}
                 <div style={{
                   display: 'flex',
                   flexDirection: 'row',
                   gap: `${GAP}px`,
                   justifyContent: 'center',
                   alignItems: 'flex-start',
-                  minHeight: '100vh'
+                  minHeight: '100vh',
+                  paddingBottom: '80px'
                 }}>
                   {columns.filter(col => col.length > 0).map((col, colIndex) => (
                       <div key={colIndex} style={{ display: 'flex', flexDirection: 'column', gap: `${GAP}px`, flex: '0 0 auto', maxWidth: `${CARD_MAX_WIDTH}px` }}>
-                        {col.map((project) => (
-                            <Fade key={project.title} duration={800}>
+                        {col.map((item) => (
+                            <Fade key={item.title} duration={800}>
                               <ProjectCard
-                                  project={project}
+                                  project={item}
                                   isGlobalPaused={isAnyModalOpen}
                                   setGlobalPause={setIsAnyModalOpen}
                               />

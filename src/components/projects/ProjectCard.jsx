@@ -14,11 +14,11 @@ const ProjectCard = ({ project, isGlobalPaused, setGlobalPause }) => {
     const isVideo = (path) => path?.match(/\.(mp4|webm|ogg)$/i);
 
     useEffect(() => {
-        if (videoRef.current && isVideo(project?.image)) {
+        if (videoRef.current && isVideo(project?.cover)) {
             if (isGlobalPaused) videoRef.current.pause();
             else videoRef.current.play().catch(() => {});
         }
-    }, [isGlobalPaused, project?.image]);
+    }, [isGlobalPaused, project?.cover]);
 
     const handleOpen = () => {
         setShow(true);
@@ -55,7 +55,7 @@ const ProjectCard = ({ project, isGlobalPaused, setGlobalPause }) => {
                     pointerEvents: isGlobalPaused && !show ? 'none' : 'auto'
                 }}
             >
-                {renderCardMedia(project?.image)}
+                {renderCardMedia(project?.cover)}
                 <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.8))', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', opacity: hover && !isGlobalPaused ? 1 : 0, transition: 'opacity 0.3s ease', padding: '20px', borderRadius: 12 }}>
                     <Card.Title style={{ fontSize: 22, fontWeight: 800, color: '#fff', textAlign: 'center' }}>{project?.title}</Card.Title>
                     <Button variant="light" size="sm" style={{ fontWeight: 600, borderRadius: '8px' }}>Открыть описание</Button>

@@ -7,3 +7,18 @@
         margin-top: 10px !important;
     }
 }
+
+/* 1. Target the library's internal wrapper */
+.timeline-item__body-container {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* 2. Kill the library's default white background arrow */
+.timeline-item__body-container:after {
+    border-right-color: rgba(255, 255, 255, 0.05) !important;
+}
