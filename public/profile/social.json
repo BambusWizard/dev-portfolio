@@ -1,6 +1,10 @@
 {
     "social": [
         {
+            "network" : "telegram",
+            "href": "https://t.me/pixoins_dev"
+        },
+        {
             "network" : "github",
             "href": "https://github.com/BambusWizard"
         },
