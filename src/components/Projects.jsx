@@ -17,14 +17,23 @@ const Projects = (props) => {
   const [filter, setFilter] = useState('Все');
   const [isAnyModalOpen, setIsAnyModalOpen] = useState(false);
 
+  // 1. Optimized Resize: Use a debounce to prevent 100s of re-renders per second
   useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth);
+    let timeoutId = null;
+    const handleResize = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setWidth(window.innerWidth);
+      }, 150); // Only update width every 150ms
+    };
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   useEffect(() => {
-    // Fetch both YAML files at once
     Promise.all([
       fetch(endpoints.projects).then((res) => res.text()),
       fetch(endpoints.others).then((res) => res.text()),
@@ -33,21 +42,17 @@ const Projects = (props) => {
           const projectsDoc = yaml.load(projectsText);
           const othersDoc = yaml.load(othersText);
 
-          // Merge them into one data structure
           setData({
             projects: projectsDoc.projects || [],
-            others: othersDoc.projects || [], // Assuming 'others.yml' also uses the 'projects' key internally
+            others: othersDoc.projects || [],
           });
         })
         .catch((err) => console.error('YAML Loading Error:', err));
   }, []);
 
-  // Calculate unique categories for both files
   const sections = useMemo(() => {
     if (!data) return { projects: [], others: [] };
-
     const getCats = (items) => Array.from(new Set(items.map((p) => p.category).filter(Boolean))).sort();
-
     return {
       projects: ['Все', ...getCats(data.projects)],
       others: ['Все', ...getCats(data.others)],
@@ -56,22 +61,16 @@ const Projects = (props) => {
 
   const handleSectionChange = (section) => {
     setActiveSection(section);
-    setFilter('Все'); // Always reset to 'Все' when switching main tabs
+    setFilter('Все');
   };
 
   const filteredItems = useMemo(() => {
     if (!data) return [];
-
-    // Pick the source based on main tab
     const source = activeSection === 'Проекты' ? data.projects : data.others;
-
-    if (filter === 'Все') {
-      return source;
-    }
-    return source.filter((p) => p.category === filter);
+    return filter === 'Все' ? source : source.filter((p) => p.category === filter);
   }, [data, activeSection, filter]);
 
-  // Masonry logic
+  // 2. Masonry logic with safety checks
   const CARD_MAX_WIDTH = 320;
   const GAP = 25;
   const MAX_COLS = 4;
@@ -90,7 +89,7 @@ const Projects = (props) => {
         {data ? (
             <div className="section-content-container">
               <Container>
-                {/* Main Tabs: Проекты vs Прочее */}
+                {/* Main Tabs */}
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '15px', marginTop: '15px' }}>
                   <ButtonGroup>
                     {['Проекты', 'Прочее'].map((sect) => (
@@ -106,14 +105,8 @@ const Projects = (props) => {
                   </ButtonGroup>
                 </div>
 
-                {/* Sub-Filters: Все, Category A, Category B... */}
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  marginBottom: '30px',
-                  flexWrap: 'wrap',
-                  gap: '10px'
-                }}>
+                {/* Sub-Filters */}
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '30px', flexWrap: 'wrap', gap: '10px' }}>
                   {(activeSection === 'Проекты' ? sections.projects : sections.others).map((cat) => (
                       <Button
                           key={cat}
@@ -127,6 +120,7 @@ const Projects = (props) => {
                   ))}
                 </div>
 
+                {/* 3. The Grid: Added 'contain' property for browser performance */}
                 {/* The Grid */}
                 <div style={{
                   display: 'flex',
@@ -135,10 +129,26 @@ const Projects = (props) => {
                   justifyContent: 'center',
                   alignItems: 'flex-start',
                   minHeight: '100vh',
-                  paddingBottom: '80px'
+                  paddingBottom: '80px',
+                  contain: 'content'
                 }}>
+                  {/* We filter out empty columns so 1 item stays centered in the middle */}
                   {columns.filter(col => col.length > 0).map((col, colIndex) => (
-                      <div key={colIndex} style={{ display: 'flex', flexDirection: 'column', gap: `${GAP}px`, flex: '0 0 auto', maxWidth: `${CARD_MAX_WIDTH}px` }}>
+                      <div
+                          key={`${activeSection}-${filter}-${colIndex}`}
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: `${GAP}px`,
+                            // 1. flex: 1 allows it to grow/shrink based on parent
+                            // 2. width: 100% ensures it doesn't overflow on small screens
+                            // 3. maxWidth keeps it from getting too huge on big screens
+                            flex: '1',
+                            width: '100%',
+                            maxWidth: `${CARD_MAX_WIDTH}px`,
+                            transition: 'all 0.5s ease-in-out'
+                          }}
+                      >
                         {col.map((item) => (
                             <Fade key={item.title} duration={800}>
                               <ProjectCard
