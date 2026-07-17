@@ -50,9 +50,15 @@ const Projects = (props) => {
         .catch((err) => console.error('YAML Loading Error:', err));
   }, []);
 
+  // A project's `category` can be a single string or an array of strings.
+  const getCategories = (item) => {
+    if (!item.category) return [];
+    return Array.isArray(item.category) ? item.category.filter(Boolean) : [item.category];
+  };
+
   const sections = useMemo(() => {
     if (!data) return { projects: [], others: [] };
-    const getCats = (items) => Array.from(new Set(items.map((p) => p.category).filter(Boolean))).sort();
+    const getCats = (items) => Array.from(new Set(items.flatMap(getCategories))).sort();
     return {
       projects: ['Все', ...getCats(data.projects)],
       others: ['Все', ...getCats(data.others)],
@@ -67,7 +73,7 @@ const Projects = (props) => {
   const filteredItems = useMemo(() => {
     if (!data) return [];
     const source = activeSection === 'Проекты' ? data.projects : data.others;
-    return filter === 'Все' ? source : source.filter((p) => p.category === filter);
+    return filter === 'Все' ? source : source.filter((p) => getCategories(p).includes(filter));
   }, [data, activeSection, filter]);
 
   // 2. Masonry logic with safety checks
