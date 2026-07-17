@@ -26,6 +26,7 @@ projects:
       - Zenject / DI
       - SignalBus
       - DOTween
+      - UniTask
       - NUnit EditMode Tests
   
   # ------------------------------------------------------------
