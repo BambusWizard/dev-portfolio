@@ -3,9 +3,9 @@
   "name": "Эмиль Гольвер - Портфолио",
   "icons": [
     {
-      "src": "images/logo_small.png",
+      "src": "images/logo_tab.png",
       "type": "image/png",
-      "sizes": "19x19"
+      "sizes": "190x190"
     }
   ],
   "start_url": ".",
