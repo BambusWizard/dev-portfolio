@@ -1,6 +1,32 @@
 ---
 projects:
   # ------------------------------------------------------------
+  # Backpack Inventory
+  # ------------------------------------------------------------
+  - cover: images/projects/backpack-inventory.jpg
+    title: 'Backpack Inventory'
+    category: Открытый код
+    bodyText: |-
+      ### Тестовое задание                            
+      
+      Прототип от первого лица на Unity: игрок поднимает предметы в мире, удерживает их на физике и укладывает в рюкзак с произвольным числом обезличенных слотов.
+      
+      **Результаты:**
+      - **архитектура:** каждая фича - отдельная asmdef-сборка со своим MVP-разделением (View/Presenter/Model);
+      - **связность:** системы игрока, предметов и рюкзака общаются через Zenject SignalBus, а не напрямую - Presenter'ы тестируются в изоляции через фейковые View;
+      - **гибкость данных:** слоты рюкзака и типы предметов не завязаны друг на друга - новый предмет добавляется без изменений кода;
+      - **тесты:** NUnit EditMode-тесты покрывают ключевые презентеры и сервисы.
+    links:
+      - text: Посмотреть код
+        href: https://github.com/BambusWizard/Test-Task---Backpack-Inventory
+    tags:
+      - MVP Architecture
+      - Zenject / DI
+      - SignalBus
+      - DOTween
+      - NUnit EditMode Tests
+  
+  # ------------------------------------------------------------
   # Cat Tennis
   # ------------------------------------------------------------
   - cover: images/projects/cat-tennis/regular.webm
@@ -137,9 +163,6 @@ projects:
       - **networking:** внедрил библиотеку Mirror Networking для синхронизации действий игроков;
       - **архитектура:** организовал клиент-серверную логику;
       - **визуал:** совместил 2D и 3D элементы (2.5D) для создания необычной картинки.
-    links:
-      - text: Скачать демо
-        href: https://drive.filen.io/d/9aa96a9c-e355-410a-bce1-bb8b0bd05fe6#QsJpUGp8ig43bpOpY8ERIu61mNqXhOw2
     tags:
       - Mirror Networking
       - Client-Server
@@ -162,9 +185,6 @@ projects:
       - **механика:** реализовал систему крафта блюд из различных ингредиентов;
       - **анимации:** использовал Animation Curves и DOTween для создания динамичного UI и геймплея;
       - **clean code:** проект написан с соблюдением принципов SOLID для легкой расширяемости.
-    links:
-      - text: Посмотреть код
-        href: https://gitfront.io/r/Pixoins/m49EEApqcySf/CookingCraft/
     tags:
       - SOLID Principles
       - Animation Curves
