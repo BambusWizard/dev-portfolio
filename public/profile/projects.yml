@@ -5,7 +5,9 @@ projects:
   # ------------------------------------------------------------
   - cover: images/projects/backpack-inventory.jpg
     title: 'Backpack Inventory'
-    category: Открытый код
+    category:
+      - ПК игры
+      - Открытый код
     bodyText: |-
       ### Тестовое задание                            
       
@@ -18,7 +20,7 @@ projects:
       - **тесты:** NUnit EditMode-тесты покрывают ключевые презентеры и сервисы.
     links:
       - text: Посмотреть код
-        href: https://github.com/BambusWizard/Test-Task---Backpack-Inventory
+        href: https://github.com/BambusWizard/Test-Task-Backpack-Inventory
     tags:
       - MVP Architecture
       - Zenject / DI
@@ -153,7 +155,9 @@ projects:
       - images/projects/slime-farm/inventory.webm
       - images/projects/slime-farm/cover.jpg
     title: Slime Farm - Mirror Test
-    category: Прототипы
+    category:
+      - ПК игры
+      - Прототипы
     bodyText: |-
       ### Личный проект
       
@@ -175,7 +179,9 @@ projects:
   # ------------------------------------------------------------
   - cover: images/projects/cooking-craft.jpg
     title: Cooking Craft
-    category: Прототипы
+    category:
+      - ПК игры
+      - Прототипы
     bodyText: |-
       ### Тестовое задание
       
